@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#4f46e5">
+  <title>CRM Prospecção</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Pular para o conteúdo</a>
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-logo" aria-hidden="true">@</span>
+      <div>
+        <h1>CRM Prospecção</h1>
+        <p class="brand-sub">Instagram &amp; WhatsApp</p>
+      </div>
+    </div>
+    <div class="topbar-actions">
+      <button id="sync-status" class="sync" type="button" title="Status da sincronização" aria-live="polite">
+        <span class="dot" aria-hidden="true"></span><span class="sync-label">…</span>
+      </button>
+      <button class="icon-btn" type="button" id="btn-settings" aria-label="Configurações">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <nav class="tabs" aria-label="Seções">
+    <button type="button" class="tab is-active" data-view="hoje">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+      <span>Hoje</span><span class="tab-badge" id="badge-hoje" hidden>0</span>
+    </button>
+    <button type="button" class="tab" data-view="funil">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h18l-7 8v6l-4 2v-8Z"/></svg>
+      <span>Funil</span>
+    </button>
+    <button type="button" class="tab" data-view="lista">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
+      <span>Lista</span>
+    </button>
+    <button type="button" class="tab" data-view="scripts">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2Z"/></svg>
+      <span>Objeções</span>
+    </button>
+  </nav>
+
+  <div class="toolbar" id="toolbar">
+    <label class="search">
+      <span class="sr-only">Buscar</span>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input type="search" id="f-busca" placeholder="Buscar @, nome ou instituição" autocomplete="off">
+    </label>
+    <div class="filters">
+      <select id="f-tipo" aria-label="Filtrar por tipo">
+        <option value="">Todos os tipos</option>
+        <option>Escola</option>
+        <option>Clínica</option>
+      </select>
+      <select id="f-status" aria-label="Filtrar por situação">
+        <option value="ativo">Ativos</option>
+        <option value="pausado">Pausados</option>
+        <option value="ganho">Clientes</option>
+        <option value="perdido">Perdidos</option>
+        <option value="">Todos</option>
+      </select>
+    </div>
+  </div>
+
+  <div id="banner-local" class="banner" hidden>
+    Os dados estão só neste aparelho. <button type="button" class="link-btn" data-open-settings>Conectar ao Google Planilhas</button>
+  </div>
+
+  <main id="main" tabindex="-1">
+    <section id="view-hoje" class="view is-active" aria-labelledby="h-hoje">
+      <h2 id="h-hoje" class="view-title">Próximas ações</h2>
+      <div id="hoje-list" class="stack"></div>
+    </section>
+
+    <section id="view-funil" class="view" aria-labelledby="h-funil">
+      <h2 id="h-funil" class="sr-only">Funil</h2>
+      <div class="stage-pills" id="stage-pills" role="tablist" aria-label="Ir para etapa"></div>
+      <div class="board" id="board"></div>
+    </section>
+
+    <section id="view-lista" class="view" aria-labelledby="h-lista">
+      <h2 id="h-lista" class="view-title">Todos os leads</h2>
+      <div id="lista" class="stack"></div>
+    </section>
+
+    <section id="view-scripts" class="view" aria-labelledby="h-scripts">
+      <h2 id="h-scripts" class="view-title">Respostas a objeções</h2>
+      <p class="muted">Primeiro concorde com a preocupação, depois responda e termine com uma pergunta.</p>
+      <div id="objecoes" class="stack"></div>
+    </section>
+  </main>
+
+  <button type="button" class="fab" id="btn-novo" aria-label="Novo lead">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+    <span class="fab-label">Novo lead</span>
+  </button>
+
+  <!-- Cadastro / edição -->
+  <dialog id="dlg-form" class="sheet" aria-labelledby="form-title">
+    <form id="lead-form" method="dialog" novalidate>
+      <header class="sheet-head">
+        <h2 id="form-title">Novo lead</h2>
+        <button type="button" class="icon-btn" data-close aria-label="Fechar">✕</button>
+      </header>
+      <div class="sheet-body form-grid">
+        <input type="hidden" name="id">
+        <div class="field full">
+          <label for="i-instagram">Perfil do Instagram <span class="req">*</span></label>
+          <div class="input-prefix"><span aria-hidden="true">@</span>
+            <input id="i-instagram" name="instagram" required autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="escola.exemplo" inputmode="url">
+          </div>
+          <p class="hint">Pode colar o link do perfil, eu extraio o @.</p>
+          <p class="error" id="err-instagram" hidden></p>
+        </div>
+        <div class="field">
+          <label for="i-instituicao">Instituição <span class="req">*</span></label>
+          <input id="i-instituicao" name="instituicao" required placeholder="Colégio Exemplo">
+        </div>
+        <div class="field">
+          <label for="i-nome">Nome do contato</label>
+          <input id="i-nome" name="nome" placeholder="Ana" autocomplete="off">
+        </div>
+        <fieldset class="field">
+          <legend>Tipo</legend>
+          <div class="segmented">
+            <label><input type="radio" name="tipo" value="Escola" checked><span>Escola</span></label>
+            <label><input type="radio" name="tipo" value="Clínica"><span>Clínica</span></label>
+          </div>
+        </fieldset>
+        <div class="field">
+          <label for="i-canal">Canal</label>
+          <select id="i-canal" name="canal">
+            <option value="instagram">Instagram (Direct)</option>
+            <option value="wpp_indicacao">WhatsApp — indicação</option>
+            <option value="wpp_frio">WhatsApp — contato frio</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="i-telefone">WhatsApp</label>
+          <input id="i-telefone" name="telefone" type="tel" inputmode="tel" placeholder="(81) 99999-9999" autocomplete="off">
+        </div>
+        <div class="field">
+          <label for="i-cidade">Cidade</label>
+          <input id="i-cidade" name="cidade" placeholder="Recife/PE">
+        </div>
+        <div class="field full" data-show-canal="wpp_indicacao">
+          <label for="i-indicado">Indicado por</label>
+          <input id="i-indicado" name="indicadoPor" placeholder="Profa. Cláudia">
+        </div>
+        <div class="field full">
+          <label for="i-detalhe">Detalhe real do perfil</label>
+          <input id="i-detalhe" name="detalhe" placeholder="a feira de ciências / o trabalho com alfabetização">
+          <p class="hint">Vai direto para a 1ª mensagem. Escreva como se completasse a frase “adorei…”.</p>
+        </div>
+        <fieldset class="field full">
+          <legend>Qualificação rápida</legend>
+          <div class="checks">
+            <label><input type="checkbox" name="q_atividades"> Posta atividades</label>
+            <label><input type="checkbox" name="q_alunos"> Mostra alunos/pacientes</label>
+            <label><input type="checkbox" name="q_pais"> Fala com os pais</label>
+          </div>
+        </fieldset>
+      </div>
+      <footer class="sheet-foot">
+        <button type="button" class="btn ghost" data-close>Cancelar</button>
+        <button type="submit" class="btn primary">Salvar</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <!-- Detalhe do lead -->
+  <dialog id="dlg-lead" class="sheet sheet-lg" aria-labelledby="lead-title">
+    <div id="lead-detail"></div>
+  </dialog>
+
+  <!-- Configurações -->
+  <dialog id="dlg-settings" class="sheet" aria-labelledby="set-title">
+    <form id="settings-form" method="dialog">
+      <header class="sheet-head">
+        <h2 id="set-title">Configurações</h2>
+        <button type="button" class="icon-btn" data-close aria-label="Fechar">✕</button>
+      </header>
+      <div class="sheet-body form-grid">
+        <div class="field">
+          <label for="s-meunome">Seu nome</label>
+          <input id="s-meunome" name="meuNome" placeholder="Marco">
+        </div>
+        <div class="field">
+          <label for="s-empresa">Sua empresa</label>
+          <input id="s-empresa" name="empresa" placeholder="Pedagogia Gamificada">
+        </div>
+        <div class="field">
+          <label for="s-h1">Horário sugerido 1</label>
+          <input id="s-h1" name="horario1" placeholder="terça às 10h">
+        </div>
+        <div class="field">
+          <label for="s-h2">Horário sugerido 2</label>
+          <input id="s-h2" name="horario2" placeholder="quinta às 15h">
+        </div>
+        <h3 class="full section-title">Google Planilhas</h3>
+        <div class="field full">
+          <label for="s-url">URL do App da Web (Apps Script)</label>
+          <input id="s-url" name="url" type="url" placeholder="https://script.google.com/macros/s/…/exec" autocomplete="off" spellcheck="false">
+        </div>
+        <div class="field full">
+          <label for="s-token">Token</label>
+          <input id="s-token" name="token" autocomplete="off" spellcheck="false" placeholder="gerado pela função setup()">
+          <p class="hint">Veja o passo a passo no arquivo LEIAME.md.</p>
+        </div>
+        <div class="full row">
+          <button type="button" class="btn" id="btn-testar">Testar conexão</button>
+          <span id="teste-result" class="muted" role="status"></span>
+        </div>
+        <h3 class="full section-title">Backup</h3>
+        <div class="full row wrap">
+          <button type="button" class="btn" id="btn-export-csv">Exportar CSV</button>
+          <button type="button" class="btn" id="btn-export-json">Exportar JSON</button>
+          <label class="btn">Importar JSON<input type="file" id="in-import" accept=".json,application/json" hidden></label>
+          <button type="button" class="btn" id="btn-push-all" title="Envia todos os leads deste aparelho para a planilha">Enviar tudo para a planilha</button>
+        </div>
+      </div>
+      <footer class="sheet-foot">
+        <button type="button" class="btn ghost" data-close>Cancelar</button>
+        <button type="submit" class="btn primary">Salvar</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
