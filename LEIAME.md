@@ -42,6 +42,10 @@ Versão: Nova versão → Implantar**. Assim a URL continua a mesma.
 
 ### Segurança
 
+- A URL e o token padrão ficam em `js/config.js`, então o app já abre conectado.
+  **O repositório precisa ser privado**, e o site não deve ser publicado em endereço aberto
+  (quem abrir o código da página vê o token). O que for digitado nas Configurações tem prioridade.
+
 - “Qualquer pessoa” significa qualquer um **com a URL e o token**. Sem o token o script recusa.
 - Não publique a URL e o token juntos. Para trocar o token: Apps Script → ⚙ Configurações do projeto →
   Propriedades do script → edite `TOKEN` (ou apague e rode `setup()` de novo) e atualize no CRM.
