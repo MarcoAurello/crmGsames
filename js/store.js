@@ -13,11 +13,6 @@ const Store = (() => {
   let settings = Object.assign({
     meuNome: '', empresa: '', horario1: 'terça às 10h', horario2: 'quinta às 15h', url: '', token: ''
   }, ler(K_SETTINGS, {}));
-  if (typeof CONFIG_PADRAO !== 'undefined') {
-    if (!settings.url) settings.url = CONFIG_PADRAO.url;
-    if (!settings.token) settings.token = CONFIG_PADRAO.token;
-  }
-
   let status = 'local';
   let flushing = null;
   const ouvintes = new Set();
